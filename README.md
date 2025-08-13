@@ -1,2 +1,2 @@
 # KQL-queries-detection-rules
-Microsoft Kusto Query Language queries and detections.
+Here you can find custom KQL queries and detection rules which you can implement in your environment. All things done here are done based on my own experience.
