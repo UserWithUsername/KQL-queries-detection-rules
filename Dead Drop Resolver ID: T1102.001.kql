@@ -1,0 +1,14 @@
+// Author @usrwithusername
+// MITRE mapping: https://attack.mitre.org/techniques/T1102/001/
+// Comments: Review your infrastructure and exclude false positives before you go with implementation. 
+
+//Description: This analytic rule detecting network events through well known dead drop resolvers which were not triggered by web browsers which usually are used to visit these web sites.
+
+let DeadDropURLs = dynamic(["steamcommunity.com", "pastebin.com"]);
+let WebBrowsers = dynamic(["c:\\program files\\mozilla firefox\\firefox.exe",
+                                            "c:\\program files (x86)\\microsoft\\edge\\application\\msedge.exe"]);
+DeviceNetworkEvents
+| project Timestamp, DeviceName, InitiatingProcessAccountName, LocalIP, InitiatingProcessParentCreationTime, InitiatingProcessFolderPath, RemoteUrl
+| where RemoteUrl in(DeadDropURLs)
+| where not(InitiatingProcessFolderPath in(WebBrowsers))
+| order by Timestamp desc
